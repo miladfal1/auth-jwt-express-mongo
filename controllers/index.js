@@ -1,0 +1,1 @@
+exports.authController = require("./authController");

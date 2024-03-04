@@ -1,0 +1,31 @@
+<%- include('partials/header'); -%>
+
+<form action="/signup" method="post" onsubmit="return validateEmail()">
+  <h2>Sign up</h2>
+  <label for="email">Email</label>
+  <input type="text" name="email" id="emailInput" required />
+  <div class="email error" id="emailError"></div>
+  <label for="password">Password</label>
+  <input type="password" name="password" required />
+  <div class="password error"></div>
+  <button type="submit">Sign up</button>
+</form>
+
+<%- include('partials/footer'); -%>
+
+<script>
+  function validateEmail() {
+    const emailInput = document.getElementById("emailInput");
+    const emailError = document.getElementById("emailError");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(emailInput.value)) {
+      emailError.innerText = "Invalid email address";
+      return false;
+    }
+
+    emailError.innerText = "";
+    return true;
+  }
+</script>
