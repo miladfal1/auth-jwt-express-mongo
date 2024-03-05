@@ -5,15 +5,19 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const connectDB = require("./config/db");
+const port = 3000;
+
+connectDB();
 
 const app = express();
+
 // middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
-
 app.use(
   session({
     secret: "something",
@@ -31,9 +35,6 @@ app.set("view engine", "ejs");
 
 app.use(authRoutes);
 
-// database connection
-const dbURI = "your mongoDB uri";
-mongoose
-  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
-  .then((result) => app.listen(4000))
-  .catch((err) => console.log(err));
+app.listen(port, () => {
+  console.log(`server is runing on ${port}`);
+});
