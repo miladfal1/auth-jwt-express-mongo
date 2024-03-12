@@ -9,10 +9,10 @@
   <input type="password" name="password" required />
   <div class="password error"></div>
   <button type="submit">Sign up</button>
+  <div class="error"><%= error %></div>
 </form>
 
-<%- include('partials/footer'); -%>
-
+<%- include('partials/footer'); -%> ff
 <script>
   function validateEmail() {
     const emailInput = document.getElementById("emailInput");

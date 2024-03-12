@@ -12,18 +12,24 @@ const createToken = (id) => {
 
 // controller actions
 const getSignUp = (req, res) => {
-  res.render("signup");
+  const error = req.flash("message");
+  res.render("signup", { error });
 };
 
 const postSignUp = async (req, res) => {
   const { email, password } = req.body;
   try {
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      throw new Error("this user already exist");
+    }
     const user = await User.create({ email, password });
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).redirect("/");
   } catch (err) {
-    res.status(400).json({ err });
+    req.flash("message", err.message);
+    res.redirect("/signup");
   }
 };
 
